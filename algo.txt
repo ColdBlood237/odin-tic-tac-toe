@@ -1,4 +1,0 @@
-game_board_module{
-    board array
-    
-}

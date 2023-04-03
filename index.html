@@ -16,20 +16,31 @@
         </div>
 
         <div class="main">
-            <h3 class="turn-message"></h3>
-            <div class="board">
-                <button class="cell" data-index="0"></button>
-                <button class="cell" data-index="1"></button>
-                <button class="cell" data-index="2"></button>
-                <button class="cell" data-index="3"></button>
-                <button class="cell" data-index="4"></button>
-                <button class="cell" data-index="5"></button>
-                <button class="cell" data-index="6"></button>
-                <button class="cell" data-index="7"></button>
-                <button class="cell" data-index="8"></button>
+
+
+            <form id="registration">
+                <input type="text" name="p1-name" id="p1-name" placeholder="Player 1's name">
+                <input type="text" name="p2-name" id="p2-name" placeholder="Player 2's name">
+                <button class="start-button">Start</button>
+            </form>
+
+
+            <div class="game">
+                <h3 class="turn-message"></h3>
+                <div class="board">
+                    <button class="cell" data-index="0"></button>
+                    <button class="cell" data-index="1"></button>
+                    <button class="cell" data-index="2"></button>
+                    <button class="cell" data-index="3"></button>
+                    <button class="cell" data-index="4"></button>
+                    <button class="cell" data-index="5"></button>
+                    <button class="cell" data-index="6"></button>
+                    <button class="cell" data-index="7"></button>
+                    <button class="cell" data-index="8"></button>
+                </div>
+                <button class="restart-button">Restart</button>
             </div>
 
-            <button class="restart-button">Restart</button>
         </div>
     </body>
 

@@ -3,12 +3,6 @@ const game_board = (() => {
 
   const get_board = () => board;
 
-  const place_mark = (index, player) => {
-    if (board[index] !== "") {
-      board[index] = player.get_mark();
-    }
-  };
-
   const check_if_full = () => {
     let is_full = true;
     board.forEach((cell) => {
@@ -19,7 +13,7 @@ const game_board = (() => {
     return is_full;
   };
 
-  return { board, get_board, place_mark, check_if_full };
+  return { board, get_board, check_if_full };
 })();
 
 const player_factory = (name, mark) => {
@@ -30,12 +24,40 @@ const player_factory = (name, mark) => {
       game_board.board[position] = mark;
     }
   };
-  return { get_name, get_mark, place_mark };
+  return { name, get_name, get_mark, place_mark };
 };
 
 const game_controller = (() => {
-  const player_1 = player_factory("Ryan", "X");
-  const player_2 = player_factory("Karol", "O");
+  const registration = document.getElementById("registration");
+  const game_screen = document.querySelector(".game");
+
+  registration.addEventListener("submit", handle_registration);
+
+  function handle_registration(e) {
+    e.preventDefault();
+    let input_1 = document.getElementById("p1-name").value;
+    let input_2 = document.getElementById("p2-name").value;
+    if (input_1 !== "") {
+      game_controller.player_1.name = input_1;
+      console.log(game_controller.player_1);
+    }
+    if (input_2 !== "") {
+      game_controller.player_2.name = input_2;
+    }
+    start_game();
+    screen_controller.print_turn_message();
+  }
+
+  function start_game() {
+    registration.style.display = "none";
+    game_screen.style.display = "block";
+  }
+
+  let p1_name = "Player X";
+  let p2_name = "Player O";
+
+  let player_1 = player_factory(p1_name, "X");
+  let player_2 = player_factory(p2_name, "O");
   let active_player = player_1;
 
   function switch_player() {
@@ -51,17 +73,29 @@ const game_controller = (() => {
 const screen_controller = (() => {
   const turn_message = document.querySelector(".turn-message");
   const board = document.querySelector(".board");
+  const restart = document.querySelector(".restart-button");
+
+  restart.addEventListener("click", restart_game);
+
+  function restart_game() {
+    game_board.board = game_board.board.map((cell) => (cell = ""));
+    console.log(game_board.board);
+    game_controller.active_player = game_controller.player_1;
+    render_board();
+    screen_controller.print_turn_message();
+    board.addEventListener("click", handle_clicks);
+  }
 
   function print_turn_message() {
     const player = game_controller.active_player;
-    turn_message.textContent = `${player.get_name()}'s turn`;
+    turn_message.textContent = `${player.name}'s turn`;
   }
 
   function print_outcome() {
     const player = game_controller.active_player;
     board.removeEventListener("click", handle_clicks);
     if (check_winner()) {
-      turn_message.textContent = `${player.get_name()} won 🎉`;
+      turn_message.textContent = `${player.name} won 🎉`;
     } else {
       turn_message.textContent = `Tie 😬`;
     }
@@ -86,6 +120,7 @@ function handle_clicks(e) {
     screen_controller.print_outcome();
   }
   render_board();
+  console.log(game_board.board);
 }
 
 function check_winner() {
